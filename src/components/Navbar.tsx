@@ -17,7 +17,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <span className="text-xl font-semibold">Learning Platform</span>
+            <span className="text-xl font-semibold">Enghlish Academy</span>
           </div>
           
           {user && (

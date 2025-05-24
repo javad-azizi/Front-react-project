@@ -1,6 +1,6 @@
 import axios from 'axios';
 // Import AuthApiResponse (which is now updated) and the internal User types
-import { AuthApiResponse, User as AppUser, LoginCredentials, RegisterData } from '../types/auth';
+import { AuthApiResponse, LoginCredentials, RegisterData } from '../types/auth';
 
 const api = axios.create({
   baseURL: 'http://127.0.0.1:8000/api/v1',
