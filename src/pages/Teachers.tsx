@@ -1,16 +1,18 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PlusCircle, Pencil, Trash2 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import AdminSidebar from '../components/AdminSidebar';
 
 interface Teacher {
   id: number;
-  first_name: string;
-  last_name: string;
+  name: string;
+  surname: string;
   phone: string;
 }
 
 export default function Teachers() {
+  const navigate = useNavigate();
   const [teachers] = useState<Teacher[]>([
     { id: 1, name: 'Emily', surname: 'Johnson', phone: '555-1234' },
     { id: 2, name: 'Michael', surname: 'Smith', phone: '555-5678' },
@@ -28,7 +30,10 @@ export default function Teachers() {
         <div className="flex-1 p-8">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-semibold text-gray-900">Teachers</h1>
-            <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button 
+              onClick={() => navigate('/admin/teachers/new')}
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
               <PlusCircle className="w-5 h-5 mr-2" />
               Add Teacher
             </button>

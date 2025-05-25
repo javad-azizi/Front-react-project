@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import MainPanel from './pages/MainPanel';
 import Teachers from './pages/Teachers';
+import TeacherRegistration from './pages/TeacherRegistration';
 import Unauthorized from './pages/Unauthorized';
 import PrivateRoute from './components/PrivateRoute';
 
@@ -29,6 +30,14 @@ function App() {
           element={
             <PrivateRoute allowedRoles={['manager']}>
               <Teachers />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/teachers/new"
+          element={
+            <PrivateRoute allowedRoles={['manager']}>
+              <TeacherRegistration />
             </PrivateRoute>
           }
         />
