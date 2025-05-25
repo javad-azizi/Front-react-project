@@ -5,8 +5,8 @@ import AdminSidebar from '../components/AdminSidebar';
 
 interface Teacher {
   id: number;
-  name: string;
-  surname: string;
+  first_name: string;
+  last_name: string;
   phone: string;
 }
 
