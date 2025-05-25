@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import MainPanel from './pages/MainPanel';
+import Unauthorized from './pages/Unauthorized';
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route
           path="/admin-dashboard"
           element={
@@ -33,12 +35,6 @@ function App() {
       </Routes>
     </Router>
   );
-
-  // return (
-  //   <div>
-  //     <h1>Hello World</h1>
-  //   </div>
-  // );
 }
 
 export default App;
