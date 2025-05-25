@@ -1,10 +1,8 @@
-// src/pages/Register.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { register } from '../services/api'; // register returns AuthApiResponse
 import toast from 'react-hot-toast';
 import { UserPlus } from 'lucide-react';
-import { User as AppUser } from '../types/auth'; // Internal User interface
+import { User } from '../types/auth';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -23,7 +21,6 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
 
-    // Basic form validation (remains the same)
     if (!formData.phone.startsWith('+98')) {
       toast.error('Phone number must start with +98');
       setLoading(false);
@@ -36,48 +33,29 @@ export default function Register() {
     }
 
     try {
-      const apiResponse = await register(formData); // Expects AuthApiResponse
-      // console.log('Register API Raw Response:', apiResponse);
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Store token and transformed user data
-      localStorage.setItem('token', apiResponse.access_token);
-
-      let userRole: AppUser['role'] | undefined = undefined;
-      if (apiResponse.user && apiResponse.user.roles && apiResponse.user.roles.length > 0) {
-        userRole = apiResponse.user.roles[0].name as AppUser['role'];
-      }
-
-      if (!userRole) {
-        toast.error('User role could not be determined from API response after registration.');
-        setLoading(false);
-        return;
-      }
-
-      const appUser: AppUser = {
-        id: String(apiResponse.user.id),
-        email: apiResponse.user.email,
-        firstName: apiResponse.user.first_name,
-        lastName: apiResponse.user.last_name,
-        role: userRole,
+      const demoUser: User = {
+        id: '1',
+        email: formData.email,
+        firstName: formData.first_name,
+        lastName: formData.last_name,
+        role: 'student'
       };
-      
-      localStorage.setItem('user', JSON.stringify(appUser));
-      console.log('Stored AppUser after registration:', appUser);
-      
-      // Navigate after successful registration
-      // Decide where to navigate: directly to a panel, or to login page
-      toast.success('Registration successful!'); // Optional success message
-      navigate('/main-panel'); // Or '/login'
-    } catch (error: any) {
-      console.error('Register Page Submit Error:', error);
-      const errorMessage = error?.response?.data?.message || 'Registration failed. Please try again.';
-      toast.error(errorMessage);
+
+      localStorage.setItem('user', JSON.stringify(demoUser));
+      localStorage.setItem('token', 'demo-token');
+
+      toast.success('Registration successful!');
+      navigate('/main-panel');
+    } catch (error) {
+      toast.error('Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  // ... JSX for the form (no changes needed here)
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">

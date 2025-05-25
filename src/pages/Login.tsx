@@ -1,10 +1,8 @@
-// src/pages/Login.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
 import toast from 'react-hot-toast';
 import { LogIn } from 'lucide-react';
-import { User as AppUser } from '../types/auth'; // Internal User interface
+import { User } from '../types/auth';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,58 +17,42 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const apiResponse = await login(formData); // Receives AuthApiResponse
-      // console.log('Login API Raw Response:', apiResponse);
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      localStorage.setItem('token', apiResponse.access_token);
-
-      // Extract the role from the user.roles array
-      let userRole: AppUser['role'] | undefined = undefined;
-      if (apiResponse.user && apiResponse.user.roles && apiResponse.user.roles.length > 0) {
-        // Assuming the first role in the array is the primary role
-        userRole = apiResponse.user.roles[0].name as AppUser['role'];
-      }
-
-      if (!userRole) {
-        toast.error('User role could not be determined from API response.');
-        setLoading(false);
-        return;
-      }
-
-      const appUser: AppUser = {
-        id: String(apiResponse.user.id),
-        email: apiResponse.user.email,
-        firstName: apiResponse.user.first_name,
-        lastName: apiResponse.user.last_name,
-        role: userRole,
+      // Static user data for demo
+      const demoUser: User = {
+        id: '1',
+        email: formData.email,
+        firstName: 'John',
+        lastName: 'Doe',
+        role: formData.email.includes('manager') ? 'manager' : 'student'
       };
-      
-      localStorage.setItem('user', JSON.stringify(appUser));
-      // console.log('Stored AppUser:', appUser);
 
-      if (appUser.role === 'manager') {
-        navigate('/admin-dashboard'); // Or your manager dashboard route
+      localStorage.setItem('user', JSON.stringify(demoUser));
+      localStorage.setItem('token', 'demo-token');
+
+      if (demoUser.role === 'manager') {
+        navigate('/admin-dashboard');
       } else {
         navigate('/main-panel');
       }
-    } catch (error: any) {
-      console.error('Login Page Submit Error:', error);
-      const errorMessage = 
-        error?.response?.data?.message || 
-        (error.message === 'Network Error' ? 'Network Error: Could not connect to server.' : 'Invalid credentials or server error.');
-      toast.error(errorMessage);
+    } catch (error) {
+      toast.error('Invalid credentials');
     } finally {
       setLoading(false);
     }
   };
 
-  // ... JSX for the form (no changes needed here)
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Sign in to your account
         </h2>
+        <p className="mt-2 text-center text-sm text-gray-600">
+          Use "manager@example.com" for admin access
+        </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
