@@ -181,7 +181,9 @@ export default function Terms() {
                   value={formData.end_date}
                   onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
                 />
-                <div>
+              </div>
+
+              <div>
                 <label className="block text-sm font-medium text-gray-700">Status</label>
                 <select
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -191,7 +193,6 @@ export default function Terms() {
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
                 </select>
-              </div>
               </div>
 
               <div className="flex justify-end space-x-3 mt-6">
