@@ -18,10 +18,13 @@ export default function AdminSidebar() {
           <Users className="w-5 h-5 mr-3" />
           Teachers
         </button>
-        <a href="#" className="flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50">
+        <button 
+          onClick={() => navigate('/admin/terms')}
+          className="w-full flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50"
+        >
           <CalendarDays className="w-5 h-5 mr-3" />
           Terms
-        </a>
+        </button>
         <a href="#" className="flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50">
           <BookOpen className="w-5 h-5 mr-3" />
           Courses
