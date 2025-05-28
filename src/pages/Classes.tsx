@@ -27,6 +27,7 @@ interface Class {
   courseName: string;
   teacherId: number;
   teacherName: string;
+  termId: number;
   startDate: string;
   endDate: string;
   tuitionFee: number;
@@ -67,6 +68,7 @@ export default function Classes() {
       courseName: 'Computer Science 101',
       teacherId: 1,
       teacherName: 'Dr. Eleanor Harper',
+      termId: 1,
       startDate: '2024-09-05',
       endDate: '2024-12-15',
       tuitionFee: 1500,
@@ -81,6 +83,7 @@ export default function Classes() {
       courseName: 'Mathematics 201',
       teacherId: 2,
       teacherName: 'Prof. Samuel Bennett',
+      termId: 1,
       startDate: '2024-09-05',
       endDate: '2024-12-15',
       tuitionFee: 1200,
@@ -95,6 +98,7 @@ export default function Classes() {
       courseName: 'English 101',
       teacherId: 3,
       teacherName: 'Ms. Olivia Carter',
+      termId: 1,
       startDate: '2024-09-05',
       endDate: '2024-12-15',
       tuitionFee: 1000,
@@ -109,6 +113,7 @@ export default function Classes() {
       courseName: 'Physics 101',
       teacherId: 4,
       teacherName: 'Dr. Ethan Mitchell',
+      termId: 1,
       startDate: '2024-09-05',
       endDate: '2024-12-15',
       tuitionFee: 1300,
@@ -123,6 +128,7 @@ export default function Classes() {
       courseName: 'History 101',
       teacherId: 5,
       teacherName: 'Prof. Sophia Reynolds',
+      termId: 1,
       startDate: '2024-09-05',
       endDate: '2024-12-15',
       tuitionFee: 900,
@@ -141,6 +147,7 @@ export default function Classes() {
     name: '',
     courseId: '',
     teacherId: '',
+    termId: '',
     startDate: '',
     endDate: '',
     capacity: '',
@@ -155,6 +162,7 @@ export default function Classes() {
       name: classItem.name,
       courseId: classItem.courseId.toString(),
       teacherId: classItem.teacherId.toString(),
+      termId: classItem.termId.toString(),
       startDate: classItem.startDate,
       endDate: classItem.endDate,
       capacity: classItem.capacity.toString(),
@@ -172,6 +180,22 @@ export default function Classes() {
 
   const ClassForm = ({ isEdit = false }) => (
     <form className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Term</label>
+        <select
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          value={formData.termId}
+          onChange={(e) => setFormData({ ...formData, termId: e.target.value })}
+        >
+          <option value="">Select a term</option>
+          {terms.map(term => (
+            <option key={term.id} value={term.id}>
+              {term.season} {term.year}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div>
         <label className="block text-sm font-medium text-gray-700">Course</label>
         <select
@@ -318,7 +342,13 @@ export default function Classes() {
               </select>
             </div>
             <button 
-              onClick={() => setIsAddModalOpen(true)}
+              onClick={() => {
+                setFormData({
+                  ...formData,
+                  termId: selectedTerm.id.toString()
+                });
+                setIsAddModalOpen(true);
+              }}
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <PlusCircle className="w-5 h-5 mr-2" />
@@ -354,44 +384,46 @@ export default function Classes() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {classes.map((classItem) => (
-                  <tr key={classItem.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        onClick={() => handleShowInfo(classItem)}
-                        className="text-sm font-medium text-indigo-600 hover:text-indigo-900"
-                      >
-                        {classItem.name}
-                      </button>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {classItem.courseName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {classItem.teacherName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {classItem.startDate}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {classItem.endDate}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      ${classItem.tuitionFee}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 space-x-2">
-                      <button 
-                        onClick={() => handleEdit(classItem)}
-                        className="text-indigo-600 hover:text-indigo-900"
-                      >
-                        <Pencil className="w-5 h-5" />
-                      </button>
-                      <button className="text-red-600 hover:text-red-900">
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {classes
+                  .filter(classItem => classItem.termId === selectedTerm.id)
+                  .map((classItem) => (
+                    <tr key={classItem.id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          onClick={() => handleShowInfo(classItem)}
+                          className="text-sm font-medium text-indigo-600 hover:text-indigo-900"
+                        >
+                          {classItem.name}
+                        </button>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {classItem.courseName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {classItem.teacherName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {classItem.startDate}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {classItem.endDate}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${classItem.tuitionFee}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 space-x-2">
+                        <button 
+                          onClick={() => handleEdit(classItem)}
+                          className="text-indigo-600 hover:text-indigo-900"
+                        >
+                          <Pencil className="w-5 h-5" />
+                        </button>
+                        <button className="text-red-600 hover:text-red-900">
+                          <Trash2 className="w-5 h-5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -487,6 +519,13 @@ export default function Classes() {
               <div>
                 <h3 className="text-sm font-medium text-gray-500">Tuition Fee</h3>
                 <p className="mt-1 text-sm text-gray-900">${selectedClass.tuitionFee}</p>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Term</h3>
+                <p className="mt-1 text-sm text-gray-900">
+                  {terms.find(t => t.id === selectedClass.termId)?.season} {terms.find(t => t.id === selectedClass.termId)?.year}
+                </p>
               </div>
             </div>
 
