@@ -9,6 +9,7 @@ import TeacherRegistration from './pages/TeacherRegistration';
 import Terms from './pages/Terms';
 import Courses from './pages/Courses';
 import Classes from './pages/Classes';
+import Students from './pages/Students';
 import Unauthorized from './pages/Unauthorized';
 import PrivateRoute from './components/PrivateRoute';
 
@@ -69,6 +70,14 @@ function App() {
           }
         />
         <Route
+          path="/admin/students"
+          element={
+            <PrivateRoute allowedRoles={['manager']}>
+              <Students />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/main-panel"
           element={
             <PrivateRoute allowedRoles={['student', 'teacher']}>
@@ -76,10 +85,10 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/login\" replace />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );
 }
 
-export default App
+export default App;
