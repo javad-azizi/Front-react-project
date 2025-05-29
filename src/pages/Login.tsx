@@ -20,19 +20,28 @@ export default function Login() {
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Static user data for demo
+      // Determine user role based on email
+      let role: 'manager' | 'teacher' | 'student';
+      if (formData.email.includes('manager')) {
+        role = 'manager';
+      } else if (formData.email.includes('teacher')) {
+        role = 'teacher';
+      } else {
+        role = 'student';
+      }
+
       const demoUser: User = {
         id: '1',
         email: formData.email,
         firstName: 'John',
         lastName: 'Doe',
-        role: formData.email.includes('manager') ? 'manager' : 'student'
+        role: role
       };
 
       localStorage.setItem('user', JSON.stringify(demoUser));
       localStorage.setItem('token', 'demo-token');
 
-      if (demoUser.role === 'manager') {
+      if (role === 'manager') {
         navigate('/admin-dashboard');
       } else {
         navigate('/main-panel');
@@ -51,8 +60,15 @@ export default function Login() {
           Sign in to your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Use "manager@example.com" for admin access
+          Use these email patterns for different roles:
         </p>
+        <div className="mt-2 text-center text-sm text-gray-500">
+          <ul className="space-y-1">
+            <li>manager@example.com - for admin access</li>
+            <li>teacher@example.com - for teacher access</li>
+            <li>student@example.com - for student access</li>
+          </ul>
+        </div>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
