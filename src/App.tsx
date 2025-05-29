@@ -10,6 +10,7 @@ import Terms from './pages/Terms';
 import Courses from './pages/Courses';
 import Classes from './pages/Classes';
 import Students from './pages/Students';
+import Grades from './pages/Grades';
 import Unauthorized from './pages/Unauthorized';
 import PrivateRoute from './components/PrivateRoute';
 
@@ -81,7 +82,7 @@ function App() {
           path="/admin/grades"
           element={
             <PrivateRoute allowedRoles={['manager']}>
-              <Students />
+              <Grades />
             </PrivateRoute>
           }
         />
@@ -93,7 +94,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/login\" replace />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );
