@@ -78,6 +78,14 @@ function App() {
           }
         />
         <Route
+          path="/admin/grades"
+          element={
+            <PrivateRoute allowedRoles={['manager']}>
+              <Students />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/main-panel"
           element={
             <PrivateRoute allowedRoles={['student', 'teacher']}>
