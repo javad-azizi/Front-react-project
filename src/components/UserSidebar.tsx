@@ -12,10 +12,15 @@ export default function UserSidebar() {
           <Home className="w-5 h-5 mr-3" />
           Home
         </a>
-        <a href="#" className="flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50">
-          <BookOpen className="w-5 h-5 mr-3" />
+        <button 
+          onClick={() => navigate('/classes')}
+          className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-50 ${
+            location.pathname === '/classes' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
+          }`}
+        >
+          <MessageSquare className="w-5 h-5 mr-3" />
           Classes
-        </a>
+        </button>
         <a href="#" className="flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50">
           <GraduationCap className="w-5 h-5 mr-3" />
           Grades
