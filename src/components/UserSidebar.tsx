@@ -28,7 +28,7 @@ export default function UserSidebar() {
             location.pathname === '/classes' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
           }`}
         >
-          <MessageSquare className="w-5 h-5 mr-3" />
+          <BookOpen className="w-5 h-5 mr-3" />
           Classes
         </button>
         <button 
