@@ -1,6 +1,11 @@
-import { Home, BookOpen, GraduationCap, DollarSign } from 'lucide-react';
+import { Home, BookOpen, GraduationCap, DollarSign, MessageSquare } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function UserSidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userRole = localStorage.getItem('userRole');
+
   return (
     <div className="w-64 min-h-[calc(100vh-64px)] bg-white shadow-sm p-4">
       <div className="mb-6">
@@ -8,10 +13,15 @@ export default function UserSidebar() {
       </div>
       
       <nav className="space-y-1">
-        <a href="#" className="flex items-center px-3 py-2.5 text-sm font-medium text-gray-900 rounded-lg bg-gray-100">
+        <button 
+          onClick={() => navigate('/main-panel')}
+          className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-50 ${
+            location.pathname === '/main-panel' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
+          }`}
+        >
           <Home className="w-5 h-5 mr-3" />
           Home
-        </a>
+        </button>
         <button 
           onClick={() => navigate('/classes')}
           className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-50 ${
@@ -21,14 +31,26 @@ export default function UserSidebar() {
           <MessageSquare className="w-5 h-5 mr-3" />
           Classes
         </button>
-        <a href="#" className="flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50">
+        <button 
+          onClick={() => navigate('/grades')}
+          className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-50 ${
+            location.pathname === '/grades' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
+          }`}
+        >
           <GraduationCap className="w-5 h-5 mr-3" />
           Grades
-        </a>
-        <a href="#" className="flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50">
-          <DollarSign className="w-5 h-5 mr-3" />
-          Payment
-        </a>
+        </button>
+        {userRole !== 'teacher' && (
+          <button 
+            onClick={() => navigate('/payment')}
+            className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-50 ${
+              location.pathname === '/payment' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
+            }`}
+          >
+            <DollarSign className="w-5 h-5 mr-3" />
+            Payment
+          </button>
+        )}
       </nav>
     </div>
   );
