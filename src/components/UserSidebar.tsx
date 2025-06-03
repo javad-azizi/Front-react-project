@@ -1,11 +1,12 @@
-import { Home, BookOpen, GraduationCap, DollarSign, MessageSquare } from 'lucide-react';
+import { Home, BookOpen, GraduationCap, DollarSign } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function UserSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const userRole = localStorage.getItem('userRole');
-
+  const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+  
   return (
     <div className="w-64 min-h-[calc(100vh-64px)] bg-white shadow-sm p-4">
       <div className="mb-6">
@@ -40,7 +41,7 @@ export default function UserSidebar() {
           <GraduationCap className="w-5 h-5 mr-3" />
           Grades
         </button>
-        {userRole !== 'teacher' && (
+        {user?.role === 'student' && (
           <button 
             onClick={() => navigate('/payment')}
             className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-50 ${

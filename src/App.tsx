@@ -12,6 +12,7 @@ import Courses from './pages/Courses';
 import Classes from './pages/Classes';
 import Students from './pages/Students';
 import Grades from './pages/Grades';
+import Payment from './pages/Payment';
 import Unauthorized from './pages/Unauthorized';
 import PrivateRoute from './components/PrivateRoute';
 
@@ -103,7 +104,15 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/login\" replace />} />
+        <Route
+          path="/payment"
+          element={
+            <PrivateRoute allowedRoles={['student']}>
+              <Payment />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );
