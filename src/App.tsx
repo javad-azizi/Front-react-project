@@ -13,6 +13,7 @@ import Classes from './pages/Classes';
 import Students from './pages/Students';
 import Grades from './pages/Grades';
 import Payment from './pages/Payment';
+import RecordGrades from './pages/RecordGrades';
 import Unauthorized from './pages/Unauthorized';
 import PrivateRoute from './components/PrivateRoute';
 
@@ -112,7 +113,15 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/login\" replace />} />
+        <Route
+          path="/record-grades"
+          element={
+            <PrivateRoute allowedRoles={['teacher']}>
+              <RecordGrades />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );
